@@ -5,7 +5,7 @@ namespace NewtonMethod
 {
     public class Solver
     {
-        static double NewtonSolver(Func<double, double> f, Func<double, double> df, double x0, double maxError, int maxIter)
+        public static double NewtonSolver(Func<double, double> f, Func<double, double> df, double x0, double maxError, int maxIter)
         {
             double error = Math.Abs(f(x0));
             double x_n = x0;
@@ -27,7 +27,11 @@ namespace NewtonMethod
     {
         public static void Main(string[] args)
         {
-            double res=Solver.NewtonSolver(Math.Pow(x, 2) - 2, 2 * x, 2, 0.01, 100);
+			Func<double, double> fn
+				= (x) => Math.Pow(x, 2) - 2;
+			Func<double, double> df
+				= (x) => 2*x;
+            double res=Solver.NewtonSolver(fn, df, 2, 0.0001, 1000);
             Console.WriteLine("{0}",res);
             Console.ReadKey();
         }
