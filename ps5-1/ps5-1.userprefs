@@ -1,0 +1,27 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ps5-1/Program.cs">
+    <Files>
+      <File FileName="ps5-1/Program.cs" Line="25" Column="17" />
+      <File FileName="ps5-1/Properties/BlackScholesFormula.cs" Line="21" Column="16" />
+      <File FileName="ps5-1/NewtonSolver.cs" Line="13" Column="23" />
+      <File FileName="ps5-1/BSImpliedVolatility.cs" Line="22" Column="23" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ps5-1" expanded="True">
+            <Node name="ps5-1" expanded="True">
+              <Node name="Properties" expanded="True" />
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
