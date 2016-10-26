@@ -43,6 +43,7 @@
     <Compile Include="Properties\BlackScholesFormula.cs" />
     <Compile Include="NewtonSolver.cs" />
     <Compile Include="BSImpliedVolatility.cs" />
+    <Compile Include="BSMonteCarlo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
