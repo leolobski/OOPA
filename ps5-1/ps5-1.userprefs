@@ -1,20 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ps5-1/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BSFiniteDifferenceSolver.cs">
     <Files>
-      <File FileName="ps5-1/Program.cs" Line="25" Column="17" />
-      <File FileName="ps5-1/Properties/BlackScholesFormula.cs" Line="21" Column="16" />
-      <File FileName="ps5-1/NewtonSolver.cs" Line="13" Column="23" />
-      <File FileName="ps5-1/BSImpliedVolatility.cs" Line="22" Column="23" />
+      <File FileName="ps5-1/Program.cs" Line="1" Column="1" />
+      <File FileName="ps5-1/BlackScholesFormula.cs" Line="1" Column="1" />
+      <File FileName="ps5-1/BSMonteCarlo.cs" Line="1" Column="1" />
+      <File FileName="ps5-1/BSImpliedVolatility.cs" Line="1" Column="1" />
+      <File FileName="ps5-1/NewtonSolver.cs" Line="1" Column="1" />
+      <File FileName="BSFiniteDifferenceSolver.cs" Line="109" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="ps5-1" expanded="True">
             <Node name="ps5-1" expanded="True">
-              <Node name="Properties" expanded="True" />
-              <Node name="Program.cs" selected="True" />
+              <Node name="Program.cs" expanded="True" />
             </Node>
+            <Node name="BSFiniteDifferenceSolver.cs" selected="True" />
           </Node>
         </State>
       </Pad>

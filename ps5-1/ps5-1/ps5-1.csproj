@@ -40,13 +40,19 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\BlackScholesFormula.cs" />
     <Compile Include="NewtonSolver.cs" />
     <Compile Include="BSImpliedVolatility.cs" />
     <Compile Include="BSMonteCarlo.cs" />
+    <Compile Include="BlackScholesFormula.cs">
+      <DependentUpon>Program.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BSFiniteDifferenceSolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>
