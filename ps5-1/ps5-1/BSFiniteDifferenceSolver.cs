@@ -135,7 +135,7 @@ namespace BlackScholes
 		//This method is written using the lecture slides as a model (Lectures 5 and 6, solving 1D Heat Equation)
 		private Vector<double> FDSolve()
 		{
-			SetUpSolver();
+//			SetUpSolver();
 
 //			Vector<double> uOld = ApproxInitialCondition();
 //			for (int i=0; i<M; i++) Console.Write ("{0},", uOld [i]);
@@ -152,12 +152,12 @@ namespace BlackScholes
 //				uNew = S.SolveIterative(bOld, solver, monitor);
 //				difference = (S * uNew) * (S * uNew) - bOld * bOld;
 //				Console.Write ("{0}\n", difference);
-				if (n == N) {
+/*				if (n == N) {
 					for (int i=0; i<M; i++)
 						Console.Write ("{0}, ", uNew [i]);
 					Console.WriteLine ();
 				}
-
+*/
 //				uOld = uNew;
 //				Console.Write("Step {0}, ", n);
 			}

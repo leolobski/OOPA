@@ -25,7 +25,7 @@ namespace BlackScholes
 			Func<double,double> callPayoff = (S0) => Math.Max(S0-K,0);
 
 			uint N=200;
-			uint M=400;
+			uint M=100;
 
 			//For calculating the implied volatility
 //			double CallPrice = 10;
