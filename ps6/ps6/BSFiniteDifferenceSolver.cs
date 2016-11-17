@@ -28,8 +28,8 @@ namespace BlackScholes
 		private Matrix<double> S;
 
 		//parameters for the iterative solver
-		Iterator<double> monitor;
-		BiCgStab solver;
+		private Iterator<double> monitor;
+		private BiCgStab solver;
 
 		public BSFiniteDifferenceSolver ( double T, //time to maturity
 		                                 Func<double, double> payoffFunction,
@@ -119,12 +119,12 @@ namespace BlackScholes
 		{
 			// Stop calculation if 1000 iterations reached during calculation
 			IterationCountStopCriterion<double> iterationCountStopCriterion
-				= new IterationCountStopCriterion<double>(1000);
+				= new IterationCountStopCriterion<double>(100);
 
 			// Stop calculation if residuals are below 1e-8
 			// i.e. the calculation is considered converged
 			ResidualStopCriterion<double> residualStopCriterion
-				= new ResidualStopCriterion<double>(1e-8);
+				= new ResidualStopCriterion<double>(1e-3);
 
 			// Create monitor with defined stop criteria
 			monitor = new Iterator<double>(iterationCountStopCriterion, residualStopCriterion);
@@ -135,21 +135,21 @@ namespace BlackScholes
 		//This method is written using the lecture slides as a model (Lectures 5 and 6, solving 1D Heat Equation)
 		private Vector<double> FDSolve()
 		{
-			SetUpSolver();
+//			SetUpSolver();
 
 //			Vector<double> uOld = ApproxInitialCondition();
 //			for (int i=0; i<M; i++) Console.Write ("{0},", uOld [i]);
 //			Console.WriteLine ();
 			Vector<double> bOld = Vector<double>.Build.Dense (M);
 			Vector<double> uNew = ApproxInitialCondition();
-//			Matrix<double> Sinv = S.Inverse();
+			Matrix<double> Sinv = S.Inverse();
 //			double difference; //for debugging
 			for (int n = 1; n < N+1; n++)
 			{
 				// solve for uNew in (I + tau*A)*uNew = bOld i.e. in S*uNew = bOld
 				bOld = BOld (n,uNew);
-//				uNew = Sinv * bOld;
-				uNew = S.SolveIterative(bOld, solver, monitor);
+				uNew = Sinv * bOld;
+//				uNew = S.SolveIterative(bOld, solver, monitor);
 //				difference = (S * uNew) * (S * uNew) - bOld * bOld;
 //				Console.Write ("{0}\n", difference);
 /*				if (n == N) {

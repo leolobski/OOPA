@@ -25,21 +25,11 @@ namespace BlackScholes
 			double error;
 			Func<double, double> putPayoff = (S) => Math.Max(K - S, 0); // = g(x), the payoff function
 
-			uint N=200, M=100; //Number of time/space partitions
-			int numberCalculations=5;
-
+			uint N = 200;
+			uint M=100; //Number of time/space partitions
+			int numberCalculations=1;
+/*
 			//Use finite difference estimation to approximate the option price and compare to the true value
-			for (int i = 0; i < numberCalculations; i++, N*= 2)
-			{
-				BSFiniteDifferenceSolver solverForThisLevelOfRefinement = 
-					new BSFiniteDifferenceSolver (T, putPayoff, r, sigma, 5*K, N, M);
-
-				putPrice = BlackScholesFormula.CalculatePutOptionPrice (S0, T, K, sigma, r);
-				error = Math.Abs (putPrice - solverForThisLevelOfRefinement.Price (S0));
-				Console.WriteLine ("Space partitions: {0}, time steps: {1}, error: {2}", M, N, error);
-			}
-
-			N = 10; M = 8001;
 			for (int i = 0; i < numberCalculations; i++, M*= 2)
 			{
 				BSFiniteDifferenceSolver solverForThisLevelOfRefinement = 
@@ -48,6 +38,19 @@ namespace BlackScholes
 				putPrice = BlackScholesFormula.CalculatePutOptionPrice (S0, T, K, sigma, r);
 				error = Math.Abs (putPrice - solverForThisLevelOfRefinement.Price (S0));
 				Console.WriteLine ("Space partitions: {0}, time steps: {1}, error: {2}", M, N, error);
+			}
+*/
+			N = 80;
+			M = 8001;
+			for (int i = 0; i < numberCalculations; i++)
+			{
+				BSFiniteDifferenceSolver solverForThisLevelOfRefinement = 
+					new BSFiniteDifferenceSolver (T, putPayoff, r, sigma, 5*K, N, M);
+
+				putPrice = BlackScholesFormula.CalculatePutOptionPrice (S0, T, K, sigma, r);
+				error = Math.Abs (putPrice - solverForThisLevelOfRefinement.Price (S0));
+				Console.WriteLine ("Space partitions: {0}, time steps: {1}, error: {2}", M, N, error);
+				N *= 2;
 			}
 
 			Console.ReadKey ();
