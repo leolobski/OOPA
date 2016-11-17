@@ -27,9 +27,9 @@ namespace BlackScholes
 		// matrix needed by the iterative solver, S=(I+tau*A)
 		private Matrix<double> S;
 
-		// for solving linear system iteratively
-		private Iterator<double> monitor;
-		private BiCgStab solver;
+		//parameters for the iterative solver
+		Iterator<double> monitor;
+		BiCgStab solver;
 
 		public BSFiniteDifferenceSolver ( double T, //time to maturity
 		                                 Func<double, double> payoffFunction,
@@ -54,13 +54,13 @@ namespace BlackScholes
 
 			//functions for initialisation of matrix elements
 			Func<int,double> a
-				= (m) => -0.5 * Math.Pow (sigma * m, 2) + rplus * m;
+				= (m) => -0.5 * Math.Pow (sigma * m, 2) - rminus * m;
 
 			Func<int,double> b
 				= (m) => Math.Pow (sigma * m, 2) + rplus * m + rminus * m + r;
 
 			Func<int,double> c
-				= (m) => -0.5 * Math.Pow (sigma * m, 2) - rminus * m;
+				= (m) => -0.5 * Math.Pow (sigma * m, 2) - rplus * m;
 
 			//construct the matrix A
 			Func<int, int, double> matrixEntry = (i, j) =>
@@ -74,8 +74,24 @@ namespace BlackScholes
 
 			Matrix<double> A = Matrix<double>.Build.Sparse(M, M, matrixEntry);
 			Matrix<double> I = Matrix<double>.Build.SparseIdentity(M);
+
 			//obtain the matrix S
 			S = (I + tau*A);
+
+/*			for (int i=0; i<M; i++) {
+				for (int j=0; j<M; j++) {
+					Console.Write ("{0},", tau*A [i, j]);
+				}
+				Console.WriteLine ();
+			}
+
+			for (int i=0; i<M; i++) {
+				for (int j=0; j<M; j++) {
+					Console.Write ("{0},", S [i, j]);
+				}
+				Console.WriteLine ();
+			}
+*/
 		}
 
 		//Method for calculating the vector B (bOld) at time (n-1) from the vector U (uOld) at (n-1)
@@ -84,7 +100,7 @@ namespace BlackScholes
 			Vector<double> bOld = Vector<double>.Build.Dense (M);
 			bOld [0] = Math.Exp (-r * tau * n) * g (0);
 			for (int i=1; i<M-1; i++)
-				bOld [i] = uOld [i - 1];
+				bOld [i] = uOld [i];
 			bOld [M - 1] = gamma;
 			return bOld;
 		}
@@ -93,14 +109,13 @@ namespace BlackScholes
 		private Vector<double> ApproxInitialCondition()
 		{
 			Vector<double> u0 = Vector<double>.Build.Dense(M);
-			for (int m = 0; m < M; m++)
+			for (int m = 1; m < M-1; m++)
 				u0 [m] = g (m * h);
 			return u0;
 		}
 
-		//Iterative solver of the PDE approximation
-		//This method is written using the lecture slides as a model (Lectures 5 and 6, solving 1D Heat Equation)
-		private Vector<double> Solve()
+		//Method to set up parameters for iterative solver
+		private void SetUpSolver()
 		{
 			// Stop calculation if 1000 iterations reached during calculation
 			IterationCountStopCriterion<double> iterationCountStopCriterion
@@ -112,30 +127,50 @@ namespace BlackScholes
 				= new ResidualStopCriterion<double>(1e-8);
 
 			// Create monitor with defined stop criteria
-			monitor = new Iterator<double>(iterationCountStopCriterion,
-			                               residualStopCriterion);
+			monitor = new Iterator<double>(iterationCountStopCriterion, residualStopCriterion);
 			solver = new BiCgStab();
-//			SetUpSolver(); //do the initialisation stuff???
+		}
 
-			Vector<double> uOld = ApproxInitialCondition();
+		//Iterative solver of the PDE approximation
+		//This method is written using the lecture slides as a model (Lectures 5 and 6, solving 1D Heat Equation)
+		private Vector<double> FDSolve()
+		{
+			SetUpSolver();
+
+//			Vector<double> uOld = ApproxInitialCondition();
+//			for (int i=0; i<M; i++) Console.Write ("{0},", uOld [i]);
+//			Console.WriteLine ();
 			Vector<double> bOld = Vector<double>.Build.Dense (M);
-			Vector<double> uNew = Vector<double>.Build.Dense (M);
+			Vector<double> uNew = ApproxInitialCondition();
+			Matrix<double> Sinv = S.Inverse();
+//			double difference; //for debugging
 			for (int n = 1; n < N+1; n++)
 			{
 				// solve for uNew in (I + tau*A)*uNew = bOld i.e. in S*uNew = bOld
-				bOld = BOld (n,uOld); 
-				uNew = S.SolveIterative(bOld, solver, monitor);
-				uOld = uNew;
-				Console.Write("Step {0}, ", n);
+				bOld = BOld (n,uNew);
+				uNew = Sinv * bOld;
+//				uNew = S.SolveIterative(bOld, solver, monitor);
+//				difference = (S * uNew) * (S * uNew) - bOld * bOld;
+//				Console.Write ("{0}\n", difference);
+				if (n == N) {
+					for (int i=0; i<M; i++)
+						Console.Write ("{0}, ", uNew [i]);
+					Console.WriteLine ();
+				}
+
+//				uOld = uNew;
+//				Console.Write("Step {0}, ", n);
 			}
-			Console.WriteLine();
+//			Console.WriteLine();
 			return uNew;
 		}
 
-		public double Price(double S)
+		public double Price(double S0)
 		{
-			Vector<double> U_N = Solve (); 
-			int m = Convert.ToInt32(Math.Round (S / h, MidpointRounding.AwayFromZero));
+			Vector<double> U_N = FDSolve (); 
+			int m = Convert.ToInt32(Math.Round (S0 / h, MidpointRounding.AwayFromZero));
+//			for(int i=0;i<M;i++) Console.Write("{0}, ",U_N[i]);
+//			Console.WriteLine ();
 			return U_N [m];
 		}
 	}
