@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ps6", "ps6.csproj", "{C5CEA90F-877E-4EF7-B18E-AFC77845CEB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5CEA90F-877E-4EF7-B18E-AFC77845CEB1}.Debug|x86.ActiveCfg = Debug|x86
+		{C5CEA90F-877E-4EF7-B18E-AFC77845CEB1}.Debug|x86.Build.0 = Debug|x86
+		{C5CEA90F-877E-4EF7-B18E-AFC77845CEB1}.Release|x86.ActiveCfg = Release|x86
+		{C5CEA90F-877E-4EF7-B18E-AFC77845CEB1}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ps6.csproj
+	EndGlobalSection
+EndGlobal
